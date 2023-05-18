@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>변수활용</title>
+    
+    <script src="./js/test.js"></script>
+</head>
+
+<body>
+    <h2>변수선언하기</h2>
+    <p>
+        js는 동적타입을 사용하기 때문에 변수를 선언할 때 자료형을 선언하지 않는다. <br>
+        선언 방법<br>
+        var 변수명;<br>
+        변수에 대한 타입은 대입연산이 실행됐을 때 대입되는 값에 의해 결정이 됨<br>
+        한 개의 변수에 여러 타입의 값을 저장할 수 있다.(유연함) <br>
+    </p>
+    <script>
+        // 변수선언하기
+        var data;
+        // 변수값 대입하기
+        // 자바스크립트의 리터럴 값
+        // 문자열 : "",''을 이용해서 표시
+        // 정수형 : 숫자표시. 19, 20, 100
+        // 실수형 : 소수점이 있는 숫자표시. 180.5, 190.3, 55.2
+        // 진위형 : true, false
+        data = "최주영 바보";
+        console.log(data);
+        data = 100;
+        console.log(data);
+        data = 180.5;
+        console.log(data);
+        data = true;
+        console.log(data);
+    </script>
+
+    <h2>선언된 변수의 자료형 확인하기</h2>
+    <p>
+        자료형을 확인할 때는 typeof예약어를 사용한다. <br>
+        사용 : typeof 변수명 -> 결과는 문자열로 출력
+    </p>
+    <script>
+        console.log(data, typeof data); //script문 나눠져도 접근 가능
+        data = "최주영 안화이팅";
+        console.log(data, typeof data);
+        data = 100;
+        console.log(data, typeof data);
+        data = 65.6;
+        console.log(data, typeof data);
+    </script>
+
+    <h2>내부적으로 처리되는 타입들..</h2>
+    <p>
+        타입들 : String, Number, Boolean, undefined, Object(Array(배열)), funtion <br>
+        String(문자열) : "", ''<br>
+        Number(숫자형(정수, 실수)) : 숫자<br>
+        Boolean(진위형) : true, false <br>
+        undefined(지정되지않은 변수) : undefined <br>
+        Object(객체(키:값)) : {key:value, key:value, ...}, new Object명() -> 자바의 Map구조와 동일<br>
+        <!-- {} 자바스크립트 객체, new Object명 -->
+        Array(배열(인덱스)) : [값, 값, 값, ...], new Array() -> 자바의 List구조와 유사<br>
+        Function(함수) : function(){}(익명함수), ()=>{}(화살표함수, ECMA6 이후)
+    </p>
+    <script>
+        var data2;
+        console.log(data2, typeof data2); // undefined
+        data2 = {};
+        console.log(data2, typeof data2); // Object
+        data2 = { name: "유병승", age: 19, height: 180.5, married: true };
+        console.log(data2, typeof data2);
+        data2 = [];
+        console.log(data2, typeof data2); // Array이지만 typeof : Object 나옴
+        data2 = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+        console.log(data2, typeof data2);
+
+        // data2(); // 에러, data2 is not a function
+        // 함수저장하기
+        data2 = function () { console.log('난 함수') };
+        console.log(data2, typeof data2); // Function
+        data2(); // '난 함수' 반환
+    </script>
+
+    <h2>javascript변수의 특징</h2>
+    <p>
+        변수의 영역에 대해 알아보자<br>
+        1. 블록 범위를 허용하지 않음 -> var로 선언된 변수는 window 객체의 멤버변수가 됨.
+        2. 지역변수 구분은 function으로 함 -> function 내부에서 선언한 변수는 함수에서만 사용 가능
+        3. var로 선언한 변수는 중복선언을 허용한다.
+    </p>
+    <script>
+        if (typeof data2 == "object") {
+            var userName = "유병승";
+        }
+        console.log(userName); // 값 없어도 에러 안뜸(아예 없는 변수는 에러뜸)
+        console.log(window); // userName 포함됨
+
+        for (var i = 0; i < 10; i++) {
+            console.log(i);
+        }
+        console.log(i);
+        console.log(window);
+
+        function scopeTest() {
+            var funcVar = 100;
+            console.log(funcVar);
+        }
+        console.log(funcVar);
+        // funcVar 지역변수라 에러 뜸, 그럼 같은 script 태그 안에 있는 아래 코드들도 실행안됨
+    </script>
+    <script>
+        scopeTest();
+    </script>
+
+    <script>
+        console.log(data);
+        // 위에 있는 data(중복 가능)
+        scopeTest();
+        var data = [1, 2, 3, 4, 5];
+
+        console.log(typeof data3);
+        // undefined이지만 없는 변수임 체크해줘야함
+        console.log(typeof data2);
+    </script>
+
+    <h2>ECMA6에서 해결해줌..</h2>
+    <p>
+        1. 변수의 중복선언을 해결<br>
+        2. 변수 scope영역을 블록으로 처리<br>
+        3. 고정값(상수)에 대해 처리
+    </p>
+    <p>
+        변수를 선언하는 두 개의 예약어를 추가<br>
+        1. let : 일반변수를 선언할 때 사용 -> 가변의 변수<br>
+        2. const : 상수변수를 선언할 때 사용 -> 불면의 변수 / java의 final예약어를 사용한 것과 동일<br>
+        * 블록범위를 가짐, 중복 선언에 대해 error처리를 해줌
+    </p>
+    <script>
+        let letTest;
+        console.log(letTest);
+        letTest="유병승";
+        console.log(letTest);
+        letTest=19;
+        console.log(letTest);
+
+        // 상수라서 바로 초기화 해줘야함
+        const constTest = "최주영";
+        console.log(constTest);
+        // constTest="김현영";
+        // 다른 값 대체 불가(=상수) 콘솔에서 error
+        // let, const로 선언한 변수는 중복선언이 불가능
+        // let letTest = 180.5; -> x
+        // let constTest = "adafe"; -> x
+
+        // 블록범위를 가진다.
+        if(letTest==19){
+            let localTest=19;
+            var localVar=200;
+        }
+        console.log(localVar);
+        console.log(localTest);
+    </script>
+
+    <script>
+        console.log(outerTest);
+        console.log(outerTest2);
+        // 외부js파일에서 가져옴
+        // let outerTest; -> console에서 에러
+        console.log(outerTest3);
+        var outerTest3 = '안녕';
+        console.log(outerTest3);
+    </script>
+
+    <h3>자료형 변환하기</h3>
+    <p>
+        자동형변환, 강제형변환
+    </p>
+    <h4>자동형변환</h4>
+    <script>
+        let num1 = 100; //Number
+        let num2 = "200"; //String
+        let num3 = "100";
+        let num4 = "100원";
+        console.log(num1 + num2); // 100200 출력
+        console.log(num1 - num2); // -100 출력, 자동형변환
+        console.log(num1 / num2); // 0.5 출력
+        console.log(num1 == num2); // false 출력
+        console.log(num1 == num3); // true 출력
+        console.log(num1 - num4); // NaN 출력(Not a Number)
+    </script>
+
+    <h4>강제형변환하기</h4>
+    <p>
+        숫자 -> 문자 : .toString() 호출하면 변경<br>
+        문자 -> 숫자 : Number(), parseInt() 함수
+    </p>
+    <script>
+        console.log(num1, typeof num1);
+        let strNum = num1.toString();
+        console.log(strNum, typeof strNum);
+        strNum = "" + num1;
+        console.log(strNum, typeof strNum);
+        // 둘다 가능
+
+        let su = "100";
+        let su2 = "200";
+        console.log(su + su2); // 100200
+        console.log(Number(su) + Number(su2)); // 300
+        console.log(parseInt(su) + parseInt(su2)); // 300
+        // Number는 숫자로 변경이 가능한 형태의 값만 처리가 가능
+        let su3 = "20px";
+        console.log(Number(su3)); // NaN(px때문에 숫자로 변경 불가능)
+        // parseInt()를 이용하면 숫자값만 숫자형태로 변경을 한다.
+        console.log(parseInt(su3) + 20); // 40
+        let su4 = "20cm22";
+        console.log(parseInt(su4)); // 20
+        let su5 = "$2.5";
+        console.log(parseInt(su5)); // NaN
+    </script>
+
+
+    <!-- 계산기 만들기 -->
+    <input type="number" id="su">
+    <input type="number" id="su2">
+    <button onclick="fn_calc()">더하기</button>
+    <div id="result"></div>
+
+    <!-- 이미지 사이즈 키우기 -->
+    <img id="target" src="https://i.ytimg.com/vi/1UieozYEuH8/maxresdefault.jpg"
+    style="width:10px; height:10px">
+    <button onclick="fn_imageSize();">+</button>
+    
+    <script>
+        function fn_imageSize(){
+            // 크기가 50x50씩 증가하게, Element로 가져오면 style속성, style속성 안에 width, height가 있음
+            const $img = document.getElementById("target");
+            const width = $img.style.width;
+            const height = $img.style.height;
+            const w = parseInt(width) + 50;
+            const h = parseInt(height) + 50;
+
+            $img.style.width = w + "px";
+            $img.style.height = h + "px"; 
+        }
+
+        function fn_calc(){
+            const su = document.getElementById("su").value;
+            // console.log(typeof su); -> value통해서 가져온 값은 모두 String
+            const su2 = document.getElementById("su2").value;
+            console.log(Number(su) + Number(su2));
+            const total = Number(su) + Number(su2);
+            document.getElementById("result").innerHTML="<h3>"+total+"</h3>";
+            // 함수 -> 변경되면 안되는 값이라서 const로 선언
+        }
+    </script>
+
+    <h2>호이스팅</h2>
+    <p>
+        js코드에 선언된 변수, 함수를 먼저 올리는 현상(선언된 위치에 상관없이 준비하는 것)
+    </p>
+    <script>
+        console.log(hoistingTest); // undefined 출력
+        // var타입은 호이스팅으로 인해 먼저 올라가 있어서 출력 가능
+        var hoistingTest = 100;
+        console.log(hoistingTest); // undefined 출력
+
+        // console.log(hoistingTest2); // error, 호이스팅은 됐지만 사용x(초기화 해야돼)
+        let hoistingTest2;
+        console.log(hoistingTest2);
+
+        test();
+        function test(){ // 호이스팅
+            console.log("test함수실행");
+        }
+        
+        const test2 = function(){ // const test2 만 호이스팅, 대입연산자(=)는 278번 줄에 와야 실행
+            console.log(test2);
+        }
+    </script>
+
+</body>
+
+</html>
