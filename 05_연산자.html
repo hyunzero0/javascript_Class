@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>연산자</title>
+</head>
+<body>
+    <h2>연산자 활용하기</h2>
+    <p>js에서 사용하는 연산자는 java와 동일하다</p>
+
+    <h3>산술연산</h3>
+    <script>
+        let su = 10;
+        let su2 = 20;
+        console.log(su + su2);
+        console.log(su - su2);
+        console.log(su * su2);
+        console.log(su / su2);
+        console.log(su % su2);
+    </script>
+
+    <h3>단항연산자</h3>
+    <p>
+        증가, 감소연산자 -> ++, -- <br>
+        1. 반복문 <br>
+        2. 특정로직의 숫자를 셀 때 
+    </p>
+    <script>
+        let count = 0;
+        count++;
+        count++;
+        console.log(count);
+        count--;
+        console.log(count);
+        console.log(++count);
+    </script>
+
+    <h3>비교논리연산자</h3>
+    <p>
+        == : 일치여부를 확인하는 것. String도 적용 가능(자바 -> equals, 모든 게 객체라서 == 비교 가능) <br> 
+        != : 불일치여부를 확인하는 것. <br>
+        * 두 연산대상의 자료형이 다를 때 자료형을 자동으로 변환해서 비교함 <br><br>
+
+        === : 일치여부를 확인하는데 자료형까지 확인(String "100", Number 100 는 다른 객체) <br>
+        !== : 불일치여부를 확인하는데 자료형까지 확인 <br>
+        > : 수가 크다<br>
+        < : 수가 작다<br>
+        <= : 수가 작거나 같다<br>
+        >= : 수가 크거나 같다
+    </p>
+    <p>
+        &&, ||
+    </p>
+    <script>
+        let num = 200;
+        let strNum = "200";
+        let num2 = 100;
+        let strNum2 = "300";
+        let price = "300원";
+        let price2 = "200원";
+        let str = "가나다";
+        let str2 = "하라바";
+        console.log(num == strNum); // 자동 형변환해서 같은 값, true 반환
+        console.log(num === strNum); // type까지 비교해서 false 반환
+        console.log(num != strNum2); // true
+        console.log(num > strNum); // false, 자동 형변환
+        console.log(strNum < strNum2); // true, 자동 형변환
+        console.log(price > price2); // true, 기본적으로 문자열에 대한 대소비교도 해줌
+        console.log(str > str2); // false, 문자열 대소비교(사전 순)
+
+        console.log(str < str2 && num == strNum); // true
+    </script>
+
+    <h3>복합대입연산자</h3>
+    <p>
+        +=, -= : 문자열을 연결해서 하나의 html태그를 만들 때 많이 사용
+    </p>
+    <input type="text" id="msg">
+    <button onclick="addMsg();">추가</button>
+    <div id="msgContainer"></div>
+
+    <table id="tbl">
+        <tr>
+            <th>이름</th>
+            <th>나이</th>
+            <th>성별</th>
+        </tr>
+    </table>
+    <button onclick="addTr();">추가</button>
+
+    <script>
+        function addMsg(){
+            const msg = document.getElementById("msg").value;
+            const $container = document.getElementById("msgContainer");
+            $container.innerHTML += "<p>" + msg + "</p>";
+        }
+
+        function addTr(){
+            const $table = document.getElementById("tbl");
+            let tr = "<tr>";
+            tr += "<td>유병승</td>";
+            tr += "<td>19</td>";
+            tr += "<td>남</td>";
+            tr += "</tr>";
+            $table.innerHTML += tr;
+        }
+    </script>
+
+    <h3>삼항연산자</h3>
+    <p>
+        조건식 ? true일 때 : false일 때
+    </p>
+    <script>
+        let height = 180.5;
+        let msg = height > 180 ? "키가 크네요" : "아쉽네요..";
+        // alert(msg);
+        height > 180 ? alert("키가 크네요") : alert("아쉽네요..");
+    </script>
+
+</body>
+</html>
