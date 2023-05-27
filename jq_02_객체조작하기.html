@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>객체조작하기</title>
+    <script src="./js/jquery-3.7.0.min.js"></script>
+</head>
+
+<body>
+    <h2>jquery에서 배열 조작하기</h2>
+    <p>
+        each()함수 이용하기<br>
+        1. jquery방식으로 Element를 가져와서 전체를 순회할 때 사용 -> $("선택자").each(function(index, item){})<br>
+        2. 기본 배열을 순회할 때 사용 -> $.each(배열, function(index, item){})<br>
+    </p>
+    <div id="container">
+        <ul>
+            <li>item-1</li>
+            <li>item-2</li>
+            <li>item-3</li>
+            <li>item-4</li>
+        </ul>
+        <button onclick="changeElement();">변경하기</button>
+    </div>
+    <script>
+        const changeElement = () => {
+            const lists = $("#container li");
+            // console.log(lists);
+            // lists.css("color", "magenta"); -> 전체 다 바뀜
+            // console.log(lists[0]);
+            lists.each(function (index, item) {
+                // console.log(index, item);
+                $(item).css("backgroundColor", `rgb(120, 200, ${index * 50})`);
+                // item -> 일반 Element : css 속성 없음!
+            });
+
+            // 기본 배열에 대해서 적용이 가능하다
+            const arrInt = [1, 2, 3, 4, 5, 6, 7, 8];
+            $.each(arrInt, function(index, value){
+                console.log(index, value);
+            });
+            for(let i of arrInt){
+                console.log(i);
+            }
+            // arrInt.forEach
+        }
+    </script>
+
+
+    <h3>객체를 병합해주는 함수</h3>
+    <button onclick="extendTest();">객체병합하기</button>
+    <script>
+        const extendTest=()=>{
+            let obj = {name:"유병승", age:19};
+            let obj2 = {items:[1,2,3,4], data:"test"};
+
+            // ES6 전개연산자를 이용해서 객체를 합칠 수 있음
+            let result = {...obj, ...obj2};
+            console.log(result);
+            // jQuery에서 병합하기(전개연산자를 이용하는게 더 나음)
+            result = $.extend(obj, obj2);
+            console.log(result);
+        }
+    </script>
+
+
+    <h3>충돌 방지하기</h3>
+    <p>
+        $를 사용하지 못할 경우 $를 대체하는 문자를 지정하는 것<br>
+        $.noConflict() 함수를 이용
+    </p>
+    <script>
+        // const bs = $.noConflict();
+        // $ 대신 bs로 써야함
+    </script>
+</body>
+
+</html>
