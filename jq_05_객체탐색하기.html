@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>element탐색하기</title>
+    <script src="./js/jquery-3.7.0.min.js"></script>
+</head>
+<body>
+    <h2>순회탐색하기</h2>
+    <ul>
+        <li>first() : 선택자로 선택된 element 중 0번 인덱스의 element -> :first</li>
+        <li>last() : 선택자로 선택된 element 중 마지막 인덱스의 element -> :last</li>
+        <li>eq(index) : 선택자로 선택된 element 중 매개변수 값과 동일한 위치에 있는 element</li>
+        <li>filter(function(index, value){return true||false} || 선택자) : 
+                선택자로 선택된 element 중 return값이 true인 element
+        </li>
+        <li>not(선택자) : 매개변수 선택자를 제외한 element</li>
+    </ul>
+    <div id="container">
+        <h3 class="a">h3 1</h3>
+        <h3>h3 2</h3>
+        <h3 class="a">h3 3</h3>
+        <h3>h3 4</h3>
+        <h4>h4</h4>
+        <p>p1</p>
+        <p class="a">p2</p>
+        <p>p3</p>
+        <p class="a">p4</p>
+    </div>
+    <button onclick="firstTest();">첫 번째 element선택</button>
+    <button onclick="lastTest();">마지막 element선택</button>
+    <button onclick="eqTest();">동일한 위치 element선택</button>
+    <button onclick="filterTest();">조건에 맞는 element선택</button>
+    <button onclick="notTest();">제외하고 element선택</button>
+    <script>
+        const firstTest=()=>{
+            console.log($("container>*").first());
+            $("#container>*").first().css("fontSize", "30px");
+        }
+        const lastTest=()=>{
+            console.log($("#container>*").last());
+        }
+        const eqTest=()=>{
+            console.log($("#container>*").eq(4));
+            // 4번째 인덱스x, 4번 인덱스번호가 나옴
+        }
+        const filterTest=()=>{
+            // **선택자**
+            // $("#container>*").filter("p, h4, .a").css("backgroundColor", "lime");
+
+            // **함수**
+            $("#container>*").filter((i, v)=>{
+                // 텍스트노드에 2,4라는 숫자가 있으면~
+                const text = $(v).text();
+                // $(v) = element객체를 jquery형식으로 바꿔줌
+                return text.includes("2")||text.includes("4");
+            }).css("backgroundColor", "lime");
+        }
+        const notTest=()=>{
+            $("#container>*").not(".a, p").css("backgroundColor", "lightcoral");
+        }
+    </script>
+
+
+    <h3>자식 Element 검색하기</h3>
+    <p>
+        children() : 자식(직접 연결된 element)를 가져오는 함수<br>
+        find(선택자) : 후손 중에서 매개변수와 일치하는 element를 가져오는 함수
+    </p>
+    <div id="childrencontainer">
+        <table>
+            <tr>
+                <td>1</td>
+                <td>2</td>
+                <td>3</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>5</td>
+                <td>6</td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td><button>버튼입니다.</button></td>
+                <td><input type="text" name="test"></td>
+            </tr>
+        </table>
+        <button>외부버튼입니다.</button>
+        <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMTEyMTBfODgg%2FMDAxNjM5MTE2NjI1NDg2.DAmIFIOMwchEKjmX2m1R27evMoKnql788H54N7dlNtog.sp5wrkBDufxAUhPI9ptnhFYANOl6e3w-T-s3TqntiR0g.JPEG.enminha_ccul2%2Fec060c998bb8471a4c4267275f8ac350.jpg&type=sc960_832" alt=""
+        width="100" height="100">
+    </div>
+    <button onclick="searchChildren();">자식찾기</button>
+    <button onclick="searchFind();">후손태그찾기</button>
+    <script>
+        const searchChildren=()=>{
+            const children = $("#childrencontainer").children();
+            console.log(children);
+            // tbody 생각하기!!!!
+            console.log($("#childrencontainer>table>tbody").children());
+
+            // 두 식은 같음
+            console.log($("#childrencontainer>table>tbody").children().children());
+            // $("#childrencontainer>table>tbody").children().each((i,v)=>{
+            //     const td = $(v).children();
+            //     console.log(td);
+            // })
+
+            $("#childrencontainer>table>tbody").children().first().css({
+                "backgroundColor":"lightgray",
+                "color":"white"
+            });
+            $("#childrencontainer>table>tbody").children().last().css({
+                "backgroundColor":"magenta",
+                "color":"white"
+            });
+        }
+        const searchFind=()=>{
+            console.log($("#childrencontainer").find("tr"));
+            console.log($("#childrencontainer").find("td"));
+            console.log($("#childrencontainer").find("button"));
+
+            // const innerTag = $("#childrencontainer").find("td").children();
+            // children()은 element만 가져옴, textNode있는 td는 출력x
+            const innerTag = $("#childrencontainer").find("td").children().each((i, v)=>{
+                console.log($(v).prop("tagName"));
+                console.log(v.tagName);
+                switch($(v).prop("tagName")){
+                    case "BUTTON" : $(v).click(e=>alert("클릭!")); break;
+                    case "INPUT" : $(v).val("내가 값을 입력함"); break;
+                }
+            })
+            console.log(innerTag);
+        }
+    </script>
+
+
+    <h3>부모 태그 찾기</h3>
+    <p>
+        1. parent() : 바로 위에 있는 부모<br>
+        2. parents() : 모든 부모를 가져오기<br>
+        3. parentsUntil(선택자) : 특정범위의 부모만 가져오기
+    </p>
+    <div id="parentcontainer">
+        <div>div태그(div태그 부모)
+            <div>div태그(h1태그 부모)
+                <h1>h1태그(p태그 부모)
+                    <p>p태그</p>
+                </h1>
+            </div>
+        </div>
+    </div>
+    <button onclick="parentTest();">부모찾기</button>
+    <button onclick="parentAllTest();">모든부모찾기</button>
+    <button onclick="parentUntilTest();">특정범위 부모찾기</button>
+    <script>
+        const parentTest=()=>{
+            console.log($("#parentcontainer p").parent()); // h1
+            console.log($("#parentcontainer p").parent().parent()); // div
+        }
+        const parentAllTest=()=>{
+            console.log($("#parentcontainer p").parents());
+            // 배열로 모든 부모 출력(인덱스번호 0이 제일 가까운 부모태그)
+            console.log($("#parentcontainer p").parents().filter("#parentcontainer"));
+            // ~ 부모태그 중 id가 parentcontainer인 객체 찾기
+            console.log($("#parentcontainer p").parents().filter("body").find(".container"));
+        }
+        const parentUntilTest=()=>{
+            console.log($("#parentcontainer p").parentsUntil("div#parentcontainer"));
+            // parentsUntil(선택자) 매개변수 선택자는 제외, 그 안까지만 찾음
+        }
+    </script>
+
+
+    <h3>형제 element 찾기 -> 같은 위치에 있는 element 찾기</h3>
+    <div id="brocontainer">
+        <h2>h2 1</h2>
+        <h2>h2 2</h2>
+        <p>p 1</p>
+        <p>p 2</p>
+        <p>p 3</p>
+        <span>span 1</span>
+        <span>span 2</span>
+        <ul>
+            <li>li 1</li>
+            <li>li 2</li>
+            <li>li 3</li>
+            <li>li 4</li>
+        </ul>
+        <div>
+            <h2>div h2 1</h2>
+            <h2>div h2 2</h2>
+            <p>div p 1</p>
+            <span>div span 1</span>
+        </div>
+    </div>
+    <button onclick="siblingsTest();">형제들 가져오기</button>
+    <button onclick="prevTest();">위(앞)에 있는 element 가져오기</button>
+    <button onclick="prevAllTest();">위(앞)에 있는 전체 element 가져오기</button>
+    <button onclick="prevUntilTest();">위(앞)에 있는 일부 범위 element 가져오기</button>
+    <button onclick="nextTest();">밑(아래)에 있는 element 가져오기</button>
+    <script>
+        const siblingsTest=()=>{
+            const bro = $("#brocontainer>h2").siblings();
+            // 원래 선택자 자신은 안나오는데 h2가 2개라서 각각의 형제가 됨
+            console.log(bro);
+
+            const bro1 = $("#brocontainer>ul").siblings();
+            // ul 자기자신 제외하고 출력
+            console.log(bro1);
+        }
+        const prevTest=()=>{
+            const prevEl = $("#brocontainer>ul").prev().prev();
+            console.log(prevEl);
+            const prevEl2 = $("#brocontainer p").prev();
+            console.log(prevEl2);
+            // p가 4개라서 각 p 앞에 있는 모든 객체 출력
+        }
+        const prevAllTest=()=>{
+            const prevElAll = $("#brocontainer>ul").prevAll().filter((i,v)=>{
+                return v.tagName == 'P' || v.tagName == 'SPAN';
+            }).css({
+                "fontSize":"30px",
+                "color":"red"
+            }).css("display", (i,v)=>{
+                if(v == 'inline') return "block";
+                return v;
+                // span은 개행됨
+            });
+            console.log(prevElAll);
+        }
+        const prevUntilTest=()=>{
+            console.log($("#brocontainer>ul").prevUntil("h2"));
+            // 처음 만난 h2(아래있는거) 제외하고 그 아래 형제~ ul 전까지 모두 출력
+            console.log($("#brocontainer>ul").prevUntil("#brocontainer>h2:first"));
+        }
+        const nextTest=()=>{
+            const test = $("#brocontainer>p:last").next().next();
+            console.log(test);
+        }
+    </script>
+
+</body>
+</html>
