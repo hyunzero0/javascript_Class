@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>객체속성설정하기</title>
+    <script src="./js/jquery-3.7.0.min.js"></script>
+    <!-- getbootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <h2>클래스 속성 다루기</h2>
+    <p>
+        addClass() : 지정한 element에 클래스를 추가하는 함수<br>
+        removeClass() : 지정한 element에 클래스를 삭제하는 함수<br>
+        toggleClass() : 지정한 element에 클래스가 있으면 삭제, 없으면 추가하는 함수
+    </p>
+    <style>
+        .a0 {
+            color: red;
+        }
+
+        .a1 {
+            color: orange;
+        }
+
+        .a2 {
+            color: yellow;
+        }
+
+        .a3 {
+            color: blue;
+        }
+
+        .a4 {
+            color: green;
+        }
+
+        .b0 {
+            background-color: skyblue;
+        }
+
+        .a {
+            font-size: 30px;
+            font-weight: bolder;
+        }
+    </style>
+    <div id="container">
+        <h1>h1이야</h1>
+        <p>p1</p>
+        <p>p2</p>
+        <span>span</span>
+        <h2>h2</h2>
+    </div>
+    <button onclick="addClassTest();">addClassTest()</button>
+    <button onclick="removeClassTest();">removeClassTest()</button>
+    <button onclick="toggleClassTest();">toggleClassTest()</button>
+    <button onclick="colorChange();">colorChange()</button>
+    <button onclick="changeColor();">changeColor()</button>
+    <ul>
+        <li>윤셰프</li>
+        <li>삼겹살</li>
+        <li>순대국</li>
+        <li>해물찜</li>
+    </ul>
+    <script>
+        $(() => {
+            $("ul>li").click(e => {
+                $(e.target).toggleClass("text-muted");
+            })
+        })
+        const changeColor = () => {
+            // 쌤코드
+            setInterval(() => {
+                $("#container>*").each((i, e) => {
+                    // $(e).addClass(`a${i}`);
+                    $(e).toggleClass(`a${i}`);
+                });
+            }, 500);
+        }
+        const colorChange = () => {
+            $("#container>h1").addClass("a0");
+            $("#container>p:first").addClass("a1");
+            $("#container>p:last").addClass("a2");
+            $("#container>span").addClass("a3");
+            $("#container>h2").addClass("a4");
+        }
+        const addClassTest = () => {
+            $("#container>*").addClass("a");
+            $("#container>*").addClass("b0");
+            // $("#container>*").addClass("a b0");
+            // js에서는 for문 돌려서 순회했었지만 jQuery에서는 자동 for문
+        }
+        const removeClassTest = () => {
+            $("#container>*").removeClass("a");
+            $("#container>*").removeClass("b0");
+            // $("#container>*").removeClass("a b0");
+        }
+        const toggleClassTest = () => {
+            $("#container>*").toggleClass("a");
+            $("#container>*").toggleClass("b0");
+            // $("#container>*").toggleClass("a b0"); -> 한번에 쓰는게 나음
+        }
+    </script>
+
+
+    <h3>태그의 속성을 변경하는 함수</h3>
+    <p>
+        attr("속성명") : 속성값을 확인하는 함수<br>
+        attr("속성명", "속성값") : 속성값을 변경하는 함수<br>
+        attr("속성명", function(index, value){return value}) : 속성값을 변경할 때 특정로직이 필요할 경우 사용<br>
+        attr({"속성명":"속성값", "속성명":"속성값", ...}) : 한번에 다수의 속성값을 수정할 때<br>
+    </p>
+    <p>
+        prop() : 속성값을 관리하는 함수, Element에 등록되어 있는 속성값을 가져올 때 사용<br>
+        * attr은 보이는 속성, prop은 안보이는 속성(ex. input checkbox의 checked, selected 등)
+    </p>
+    <div id="container2">
+        <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMzA0MTZfMTk1%2FMDAxNjgxNjM5MzI4MjEx.0XMvfTFbfe43ImwNS00gRvVvZij0tyt9nPlhMYbeZNog.G3BLX_6vOTPjU5fBujamz7g2TGesrUaJ20JNJ01dYhAg.JPEG.allsaints7%2FIMG_0527.JPG&type=sc960_832" alt=""
+        width="200" height="350">
+        <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjA5MTRfMTg0%2FMDAxNjYzMTMyODUxOTEw.VFex4rwi86_RN5RnNX-8FYp-5PFbIK5nJwP07q6ZF3gg.Yw8jFygGXLIbSHxKIgPtX9KEEWh92wuUEw9HqYdZcocg.JPEG.wjdgud3832%2F6bffe968429d9eac0189aa89c85dfc1f.jpg&type=sc960_832" alt=""
+        width="250" height="350">
+        <input type="text" name="test">
+    </div>
+    <button class="btn btn-outline-primary" onclick="attrTest();">속성값 가져오기</button>
+    <button class="btn btn-outline-danger" onclick="attrTest2();">속성값 설정</button>
+    <button class="btn btn-outline-warning" onclick="attrTest3();">속성값 다수설정</button>
+    <button class="btn btn-outline-success" onclick="attrTest4();">속성값 로직에 의해 설정</button>
+    <script>
+        const attrTest4=()=>{
+            $("#container2>img").attr("width", function(index, value){
+                console.log(value);
+                // return value*2;
+                // 매개변수 value는 현재 width값, return으로 새로운 value값 반환
+                return index % 2 == 0 ? value*2 : value;
+                // index로 선택해서 변경하기
+            })
+            $("#container2>img").attr("height", function(index, value){
+                console.log(value);
+                return value*2;
+            })
+        }
+        const attrTest3=()=>{
+            const $input = $("<input>");
+            $input.attr({
+                "type":"text",
+                "name":"userId",
+                "id":"userId"
+            })
+            $("#container2").append($input);
+        }
+        const attrTest2=()=>{
+            const img=$("#container2>img");
+            img.attr("height", 450);
+            img.attr("width", 260);
+        }
+        const attrTest=()=>{
+            const src = $("#container2>img").attr("src");
+            console.log(src);
+            const height = $("#container2>img").attr("height");
+            const width = $("#container2>img").attr("width");
+            console.log(height, width);
+            
+            const type = $("#container2>input").attr("type");
+            console.log(type);
+        }
+    </script>
+
+    <div id="checkboxcontainer" class="container">
+        <input type="checkbox" name="lang" value="html">html
+        <input type="checkbox" name="lang" value="css">css
+        <input type="checkbox" name="lang" value="javascript">javascript
+        <input type="checkbox" name="lang" value="jquery">jquery
+        <input type="checkbox" name="lang" value="servlet/jsp">servlet/jsp
+        <button class="btn btn-outline-success" onclick="checkedcheck();">check한 것 확인</button>
+    </div>
+    <script>
+        const checkedcheck=()=>{
+            // $("#checkboxcontainer>input").attr("checked", (i, value)=>{
+            $("#checkboxcontainer>input").prop("checked", (i, value)=>{
+                console.log(i,value);
+                return value;
+                // attr은 보이는 속성이라 체크해도 undefined
+                // prop은 체크 시 true, 아니면 false
+            });
+        }
+    </script>
+
+
+    <h3>속성값 삭제하기</h3>
+    <div id="removeAttr">
+        <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMzAyMDdfNDYg%2FMDAxNjc1NzY5MTkyMjM2.RcOFy8YzR9Rbwkctr7QxahGqalAKm8KgPraD-7Ncd3Eg.DemMyFYlWquJ1KAgSCHeJ63qlkwvi7cM_HvK45Pnb0wg.JPEG.mmaaxxiimmuumm%2FIMG%25A3%25DF20210315%25A3%25DF220320%25A3%25DF186.jpg&type=sc960_832" alt="">
+        <button onclick="removeAttrTest();">속성 지우기</button>
+    </div>
+    <script>
+        const removeAttrTest=()=>{
+            $("#removeAttr>img").removeAttr("src");
+            // 지워졌다고 태그가 사라진게 아니고 속성만 삭제함
+        }
+    </script>
+
+
+    <h3>스타일 적용하기</h3>
+    <p>
+        css("속성명") : css객체에 있는 속성값을 가져오는 기능<br>
+        css("속성명", "속성값") : css속성을 설정하는 기능<br>
+        css("속성명", function(index, value){return value;}) : css속성을 로직에 의해 설정하는 것<br>
+        css({"속성명:속성값, 속성명:속성값, ..."}) : 다수의 css설정을 하는 기능<br>
+        * attr에 있는 속성과 다른 속성, css -> style 속성
+    </p>
+    <div id="csschange">
+        <p>스타일 적용하기</p>
+    </div>
+    <button onclick="changeStyle();">스타일 변경하기</button>
+    <script>
+        const changeStyle=()=>{
+            const fontSize = $("#csschange>p").css("fontSize");
+            console.log(fontSize);
+            $("#csschange>p").css("fontStyle", "italic");
+            $("#csschange>p").css("fontSize", (index, value)=>{
+                // value = 16px + 10 -> 16px10 NaN(곱하기하면)
+                return (parseInt(value)+10)+"px";
+            });
+
+            $("#csschange>p").css({
+                "border":"1px solid red",
+                "textShadow":"2px 2px 5px yellow",
+                "fontWeight":"bolder"
+            });
+        }
+    </script>
+
+    
+    <h3>textNode 수정하기</h3>
+    <p>
+        html() : innerHTML에 값을 대입하는 것과 동일<br>
+        text() : innerText에 값을 대입하는 것과 동일<br>
+        * 매개변수가 없으면 textNode에 있는 값을 가져올 수 있다.
+    </p>
+    <div id="textNodeTest">
+        <p>안녕하세요!</p>
+    </div>
+    <button onclick="htmlTest();">html()</button>
+    <button onclick="textText();">text()</button>
+    <script>
+        const textText=()=>{
+            // html보다 보안에 강함
+            const text = $("#textNodeTest").text();
+            console.log(text);
+            // <p> 태그제외 문구만 가져옴(html과의 차이점)
+            $("#textNodeTest").text("<h3>이것도 추가하자</h3>");
+            //태그인식안해서 <h3>도 문자열로 출력됨
+        }
+        const htmlTest=()=>{
+            const text = $("#textNodeTest").html();
+            // textNode 값 가져옴(태그형식이면 html이라서 태그 그대로 가져옴)
+            console.log(text);
+            $("#textNodeTest").html(text + "<h3>이건추가하자</h3>");
+            // 추가가 아닌 덮어쓰기가 돼서 text + 추가해줌
+        }
+    </script>
+
+
+    <h3>input태그의 value값 가져오기</h3>
+    <p>
+        val()함수를 이용해서 데이터를 가져온다.
+    </p>
+    <div id="inputValue">
+        <input type="text" name="userId">
+        <input type="password" name="password">
+        <input type="text" name="userName">
+    </div>
+    <button onclick="inputValue();">inputValue가져오기</button>
+    <script>
+        const inputValue=()=>{
+            const data = $("#inputValue>input").each((i, v)=>{
+                console.log($(v).val(5555));
+            });
+        }
+    </script>
+
+
+    <div id="test">
+        <input type="text" name="imgSrc">
+        <button onclick="addImg();">이미지추가</button>
+        <div id="imgContainer"></div>
+    </div>
+    <!--
+        이미지추가 버튼을 클릭하면 imgSrc에 작성한 이미지를 200x200크기로
+        테두리 있고, 동그랗게 imgContainer 에 출력하기
+     -->
+    <script>
+        const addImg=()=>{
+            // 내 코드
+            // const imgSrc = $("#test>input").val(); // 이미지 주소
+            // const $addImg = $("<img>").attr("src", imgSrc);
+            // // console.log($addImg[0]);
+            // $addImg.css({"width":200, "height":200, 
+            //             "border":"1px solid magenta", 
+            //             "borderRadius":"100px"
+            //             });
+            // $("#imgContainer").append($addImg[0]);
+
+            // 쌤 코드(chaining 형식)
+            const img = $("<img>");
+            img.attr({
+                "src":$("#test>input").val()
+            }).css({
+                "width":"200px",
+                "height":"200px",
+                "border":"1px solid magenta", 
+                "borderRadius":"100px"
+            }).appendTo($("#imgContainer"));
+        }
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>
