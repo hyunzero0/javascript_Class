@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>effect활용하기</title>
+    <script src="./js/jquery-3.7.0.min.js"></script>
+</head>
+
+<body>
+    <h2>animation() 함수 이용하기</h2>
+    <p>animation을 간단하게 적용할 수 있는 함수</p>
+    <div id="target"></div>
+    <style>
+        #target {
+            width: 200px;
+            height: 200px;
+            background-color: violet;
+        }
+    </style>
+    <script>
+        $("#target").click(e => {
+            $(e.target).animate({
+                "position": "absolute",
+                "left": "200px",
+                "top": "200px",
+                "width": "500px",
+                "height": "500px",
+                "opacity": "0.5",
+                "backgroundColor": "lime"
+            }, 1000, () => { alert("애니메이션 종료!") });
+            // 시간, callback함수
+        });
+    </script>
+
+
+    <h2>슬라이딩 함수</h2>
+    <p>
+        slideUp(진행시간(ms)), slideDown(진행시간(ms)), slideToggle(진행시간(ms))
+    </p>
+    <div id="menucontainer">
+        <div>첫번째 메뉴</div>
+    </div>
+    <button id="btn">slideUp</button>
+    <button id="btn2">slideDown</button>
+    <button id="btn3">slideToggle</button>
+    <style>
+        div#menucontainer>div {
+            width: 40%;
+            height: 300px;
+            background-color: lightblue;
+        }
+    </style>
+    <script>
+        $("#btn").click(e => {
+            $("#menucontainer>div").slideUp(500);
+        });
+        $("#btn2").on("click", e => {
+            $("#menucontainer>div").slideDown(1000);
+        })
+        $("#btn3").click(e => {
+            $("#menucontainer>div").slideToggle(1000);
+        })
+    </script>
+
+
+    <h3>fade 함수 적용</h3>
+    <p>
+        점점 희미해지거나 점점 진해지는 느낌을 주는 것<br>
+        fadeIn(), fadeOut(), fadeTo(), fadeToggle()
+    </p>
+    <img src="https://t1.daumcdn.net/cfile/tistory/2258464758D90DB30C" alt="" width="250" height="200" id="mukgoja">
+    <br>
+    <button onclick="fadeInTest();">fadeIn</button>
+    <button onclick="fadeOutTest();">fadeOut</button>
+    <button onclick="fadeToTest();">fadeTo</button>
+    <button onclick="fadeToggleTest();">fadeToggle</button>
+    <br><br>
+    <style>
+        #mukgoja {
+            opacity: 0.3;
+        }
+    </style>
+    <script>
+        const fadeInTest = e => {
+            $("#mukgoja").fadeIn(1000);
+        }
+        const fadeOutTest = e => {
+            $("#mukgoja").fadeOut(1000);
+        }
+        const fadeToggleTest = e => {
+            $("#mukgoja").fadeToggle(1000);
+        }
+        const fadeToTest = e => {
+            $("#mukgoja").fadeTo(1000, 0.3);
+            // 0.3 = opacity
+        }
+        $("#mukgoja").hover(
+            e => {
+                // hover라서 이벤트 2개
+                $(e.target).fadeTo(1000, 1);
+            },
+            e => {
+                $(e.target).fadeTo(1000, 0.3);
+            })
+    </script>
+
+
+    <h3>show(), hide()</h3>
+    <p>
+        display속성을 none, block으로 설정하는 함수
+    </p>
+    <h1 id="jqueryEnd">이거까지하면 프론트 끝!</h1>
+    <button onclick="showTest();">show</button>
+    <button onclick="hideTest();">hide</button>
+    <script>
+        const showTest=()=>{
+            $("#jqueryEnd").show(1000);
+        }
+        const hideTest=()=>{
+            $("#jqueryEnd").hide(1000);
+        }
+        // 슬라이드처럼 보이지만 슬라이드는 아님
+    </script>
+
+    <br><br><br>
+    <div id="testMenu">
+        <div>첫 번째 메뉴</div>
+        <p>첫 번째 메뉴 내용</p>
+        <div>두 번째 메뉴</div>
+        <p>두 번째 메뉴 내용</p>
+        <div>세 번째 메뉴</div>
+        <p>세 번째 메뉴 내용</p>
+        <div>네 번째 메뉴</div>
+        <p>네 번째 메뉴 내용</p>
+    </div>
+    <script>
+        $("#testMenu>div").click(e => {
+            $("#testMenu>p").slideUp();
+            $(e.target).next().slideToggle(200);
+        });
+    </script>
+    <style>
+        #testMenu>div{
+            font-size: 26px;
+            font-weight: bolder;
+        }
+        #testMenu>p{
+            display: none;
+            height: 40px;
+            background-color: lightcoral;
+            margin-left: 20px;
+        }
+    </style>
+</body>
+
+</html>
